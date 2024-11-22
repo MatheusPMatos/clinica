@@ -1,4 +1,5 @@
 package com.clinica.Database;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -22,8 +23,4 @@ public class DBFactory {
     public static void shutdown() {
         getSessionFactory().close();
     }
-    
 }
-
-
-
