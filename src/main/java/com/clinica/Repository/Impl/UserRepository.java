@@ -7,16 +7,16 @@ import com.clinica.models.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import com.clinica.Repository.IUserRepository;
 import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class UserRepository implements IUserRepository{
-    
-     private final SessionFactory sessionFactory;
+public class UserRepository implements IUserRepository {
 
+     private final SessionFactory sessionFactory;
 
      public UserRepository(SessionFactory sessionFactory) {
           this.sessionFactory = sessionFactory;
@@ -26,9 +26,11 @@ public class UserRepository implements IUserRepository{
      public User create(User user) throws RepositoryException {
           try {
                Session session = sessionFactory.getCurrentSession();
+               Transaction transaction = session.beginTransaction();
                session.save(user);
+               transaction.commit();
                return user;
-          }catch (HibernateException e){
+          } catch (HibernateException e) {
                throw new RepositoryException(e.getMessage());
           }
      }
@@ -36,12 +38,15 @@ public class UserRepository implements IUserRepository{
      @Override
      public User edit(User user) throws RepositoryException {
           try {
-               Session session =  sessionFactory.getCurrentSession();
-               User actualUser = session.get(User.class, user.getId());;
+               Session session = sessionFactory.getCurrentSession();
+               User actualUser = session.get(User.class, user.getId());
+
+               Transaction transaction = session.beginTransaction();
                user.setId(actualUser.getId());
                session.save(user);
+               transaction.commit();
                return user;
-          }catch (HibernateException e){
+          } catch (HibernateException e) {
                throw new RepositoryException(e.getMessage());
           }
      }
@@ -49,10 +54,13 @@ public class UserRepository implements IUserRepository{
      @Override
      public void delete(Long id) throws RepositoryException {
           try {
-               Session session =  sessionFactory.getCurrentSession();
-               User user=  session.get(User.class,id);
+               Session session = sessionFactory.getCurrentSession();
+               User user = session.get(User.class, id);
+
+               Transaction transaction = session.beginTransaction();
                session.delete(user);
-          }catch (HibernateException e){
+               transaction.commit();
+          } catch (HibernateException e) {
                throw new RepositoryException(e.getMessage());
           }
      }
@@ -60,9 +68,9 @@ public class UserRepository implements IUserRepository{
      @Override
      public User get(Long id) throws RepositoryException {
           try {
-               Session session =  sessionFactory.getCurrentSession();
-               return session.get(User.class,id);
-          }catch (HibernateException e){
+               Session session = sessionFactory.getCurrentSession();
+               return session.get(User.class, id);
+          } catch (HibernateException e) {
                throw new RepositoryException(e.getMessage());
           }
      }
@@ -76,7 +84,7 @@ public class UserRepository implements IUserRepository{
                Query<User> query = session.createQuery(hql, User.class);
                users = query.getResultList();
                return users;
-          } catch (HibernateException e){
+          } catch (HibernateException e) {
                throw new RepositoryException(e.getMessage());
           }
      }

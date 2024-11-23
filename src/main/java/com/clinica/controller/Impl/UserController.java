@@ -16,50 +16,48 @@ public class UserController implements IUserController {
     }
 
     @Override
-    public User get(Long id) {
+    public User get(Long id) throws ControllerException {
 
         try {
             return userRepository.get(id);
         } catch (RepositoryException e) {
-            return new ControllerException(e.getMessage());
+            throw new ControllerException(e.getMessage());
         }
     }
 
     @Override
-    public List<User> list() {
+    public List<User> list() throws ControllerException {
         try {
-            return userRepository.list(id);
+            return userRepository.list();
         } catch (RepositoryException e) {
-            return new ControllerException(e.getMessage());
+            throw new ControllerException(e.getMessage());
         }
     }
 
     @Override
-    public User create(User user) {
+    public User create(User user) throws ControllerException {
         try {
             return userRepository.create(user);
         } catch (RepositoryException e) {
-            return new ControllerException(e.getMessage());
+            throw new ControllerException(e.getMessage());
         }
     }
 
     @Override
-    public User edit(User user) {
+    public User edit(User user) throws ControllerException {
         try {
             return userRepository.edit(user);
         } catch (RepositoryException e) {
-            return new ControllerException(e.getMessage());
+            throw new ControllerException(e.getMessage());
         }
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws ControllerException {
         try {
-            return userRepository.delete(id);
-            ;
+            userRepository.delete(id);
         } catch (RepositoryException e) {
-            return new ControllerException(e.getMessage());
+            throw new ControllerException(e.getMessage());
         }
     }
-
 }

@@ -6,6 +6,7 @@ import com.clinica.models.Profissional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 import com.clinica.Repository.IProfissionalRepository;
 import org.hibernate.query.Query;
@@ -15,7 +16,6 @@ import java.util.List;
 public class ProfissionalRepository implements IProfissionalRepository {
     private final SessionFactory sessionFactory;
 
-
     public ProfissionalRepository(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -24,9 +24,11 @@ public class ProfissionalRepository implements IProfissionalRepository {
     public Profissional create(Profissional profissional) throws RepositoryException {
         try {
             Session session = sessionFactory.getCurrentSession();
+            Transaction transaction = session.beginTransaction();
             session.save(profissional);
+            transaction.commit();
             return profissional;
-        }catch (HibernateException e){
+        } catch (HibernateException e) {
             throw new RepositoryException(e.getMessage());
         }
     }
@@ -34,14 +36,17 @@ public class ProfissionalRepository implements IProfissionalRepository {
     @Override
     public Profissional edit(Profissional profissional) throws RepositoryException {
         try {
-            Session session =  sessionFactory.getCurrentSession();
-            Profissional actualProfissional = session.get(Profissional.class, profissional.getId());;
+            Session session = sessionFactory.getCurrentSession();
+            Profissional actualProfissional = session.get(Profissional.class, profissional.getId());
+            ;
 
             profissional.setId(actualProfissional.getId());
+            Transaction transaction = session.beginTransaction();
             session.save(profissional);
+            transaction.commit();
 
             return profissional;
-        }catch (HibernateException e){
+        } catch (HibernateException e) {
             throw new RepositoryException(e.getMessage());
         }
     }
@@ -49,9 +54,9 @@ public class ProfissionalRepository implements IProfissionalRepository {
     @Override
     public Profissional get(Long id) throws RepositoryException {
         try {
-            Session session =  sessionFactory.getCurrentSession();
-            return session.get(Profissional.class,id);
-        }catch (HibernateException e){
+            Session session = sessionFactory.getCurrentSession();
+            return session.get(Profissional.class, id);
+        } catch (HibernateException e) {
             throw new RepositoryException(e.getMessage());
         }
     }
@@ -59,10 +64,12 @@ public class ProfissionalRepository implements IProfissionalRepository {
     @Override
     public void delete(Long id) throws RepositoryException {
         try {
-            Session session =  sessionFactory.getCurrentSession();
-            Profissional profissional=  session.get(Profissional.class,id);
+            Session session = sessionFactory.getCurrentSession();
+            Profissional profissional = session.get(Profissional.class, id);
+            Transaction transaction = session.beginTransaction();
             session.delete(profissional);
-        }catch (HibernateException e){
+            transaction.commit();
+        } catch (HibernateException e) {
             throw new RepositoryException(e.getMessage());
         }
     }
@@ -76,7 +83,7 @@ public class ProfissionalRepository implements IProfissionalRepository {
             Query<Profissional> query = session.createQuery(hql, Profissional.class);
             profissionals = query.getResultList();
             return profissionals;
-        } catch (HibernateException e){
+        } catch (HibernateException e) {
             throw new RepositoryException(e.getMessage());
         }
     }

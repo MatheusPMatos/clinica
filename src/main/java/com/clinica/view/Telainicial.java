@@ -6,12 +6,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import com.clinica.controller.IProfissionalController;
 import com.clinica.controller.IUserController;
 
 public class Telainicial extends JFrame {
     private static final long serialVersionUID = -346123942816557733L;
-
-    private TelaUser crudUser;
 
     // private JMenuBar barmenu;
     // private JMenu menuCadastro;
@@ -23,7 +22,7 @@ public class Telainicial extends JFrame {
     // private JMenuItem itemMenuSobre;
     // private JMenuItem itemMenuSair;
 
-    public Telainicial() {
+    public Telainicial(IUserController userController, IProfissionalController profissionalController) {
 
         super("Loja IFPR");
 
@@ -35,6 +34,29 @@ public class Telainicial extends JFrame {
         menuUsers.add(itemUserLista);
         menuUsers.add(itemUserCreate);
 
+        itemUserLista.addActionListener(e -> {
+            // Remover todos os componentes do JFrame atual
+            Telainicial.this.getContentPane().removeAll();
+
+            // Adicionar o novo painel TelaUser
+            Telainicial.this.add(new TelaUser(userController));
+
+            // Revalidar e repintar a janela para refletir a mudança
+            Telainicial.this.revalidate();
+            Telainicial.this.repaint();
+        });
+        itemUserCreate.addActionListener(e -> {
+            // Remover todos os componentes do JFrame atual
+            Telainicial.this.getContentPane().removeAll();
+
+            // Adicionar o novo painel TelaUser
+            Telainicial.this.add(new PanelCriarUser(userController));
+
+            // Revalidar e repintar a janela para refletir a mudança
+            Telainicial.this.revalidate();
+            Telainicial.this.repaint();
+        });
+
         JMenu menuProfissionais = new JMenu("Profissionais");
         JMenuItem itemProfCreate = new JMenuItem("Criar");
         JMenuItem itemProfLista = new JMenuItem("Listar");
@@ -42,11 +64,32 @@ public class Telainicial extends JFrame {
         menuProfissionais.add(itemProfCreate);
         menuProfissionais.add(itemProfLista);
 
+        itemProfCreate.addActionListener(e -> {
+            Telainicial.this.getContentPane().removeAll();
+
+            // Adicionar o novo painel TelaUser
+            Telainicial.this.add(new PanelCriarProf(profissionalController));
+
+            // Revalidar e repintar a janela para refletir a mudança
+            Telainicial.this.revalidate();
+            Telainicial.this.repaint();
+        });
+
         JMenu menuAgenda = new JMenu("Agenda");
         JMenuItem itemAgCreate = new JMenuItem("Criar");
         JMenuItem itemAgLista = new JMenuItem("Listar");
 
-        itemAgLista.addActionListener(e -> new TelaUser());
+        itemProfLista.addActionListener(e -> {
+            // Remover todos os componentes do JFrame atual
+            Telainicial.this.getContentPane().removeAll();
+
+            // Adicionar o novo painel TelaUser
+            Telainicial.this.add(new TelaProfissionais());
+
+            // Revalidar e repintar a janela para refletir a mudança
+            Telainicial.this.revalidate();
+            Telainicial.this.repaint();
+        });
 
         menuAgenda.add(itemAgLista);
         menuAgenda.add(itemAgCreate);
@@ -63,11 +106,12 @@ public class Telainicial extends JFrame {
         barmenu.add(menuAgenda);
         barmenu.add(menuAjuda);
 
-        // new JOptionPane() ;
-        temMenuSobre.addActionListener(arg -> new JOptionPane().showMessageDialog(TelaPrincipal.this,
+        new JOptionPane();
+        // new JOptionPane();
+        itemMenuSobre.addActionListener(arg -> JOptionPane.showMessageDialog(Telainicial.this,
                 "Este é um exemplo\n" + "do uso de menus"));
         // new JOptionPane();
-        // itemMenuSair.addActionListener(e -> System.exit(0));
+        itemMenuSair.addActionListener(e -> System.exit(0));
         // new JOptionPane();
     }
 }

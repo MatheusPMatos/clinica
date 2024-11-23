@@ -2,10 +2,9 @@ package com.clinica.models;
 
 import javax.persistence.*;
 
-
 @Entity
-public class User{
-    
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,7 +14,13 @@ public class User{
     @Column(unique = true, nullable = false)
     private String cpf;
 
+    public User(String name, String cpf) {
+        this.cpf = cpf;
+        this.name = name;
+    }
 
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -40,6 +45,5 @@ public class User{
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    
 
 }

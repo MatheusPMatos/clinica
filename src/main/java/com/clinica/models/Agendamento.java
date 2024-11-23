@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 public class Agendamento {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +28,15 @@ public class Agendamento {
     @ManyToOne
     @JoinColumn(name = "profissional_id", nullable = false)
     private Profissional profissional;
+
+    public Agendamento() {
+    }
+
+    public Agendamento(Date data, User user, Profissional profissional) {
+        this.data = data;
+        this.user = user;
+        this.profissional = profissional;
+    }
 
     public Long getId() {
         return id;
@@ -61,5 +70,4 @@ public class Agendamento {
         this.profissional = profissional;
     }
 
-    
 }
