@@ -1,6 +1,4 @@
 -- Criação do banco de dados
-CREATE DATABASE clinicaBD;
-USE clinicaBD;
 
 -- Tabela User
 CREATE TABLE User (

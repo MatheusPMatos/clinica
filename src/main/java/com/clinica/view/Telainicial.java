@@ -11,8 +11,6 @@ import com.clinica.controller.IUserController;
 public class Telainicial extends JFrame {
     private static final long serialVersionUID = -346123942816557733L;
 
-    private TelaUser crudUser;
-
     // private JMenuBar barmenu;
     // private JMenu menuCadastro;
     // private JMenu menuCompra;
@@ -23,7 +21,7 @@ public class Telainicial extends JFrame {
     // private JMenuItem itemMenuSobre;
     // private JMenuItem itemMenuSair;
 
-    public Telainicial() {
+    public Telainicial(IUserController userController) {
 
         super("Loja IFPR");
 
@@ -34,7 +32,29 @@ public class Telainicial extends JFrame {
         JMenuItem itemUserLista = new JMenuItem("Listar");
         menuUsers.add(itemUserLista);
         menuUsers.add(itemUserCreate);
-        itemUserLista.addActionListener(e -> Telainicial.this.add(new TelaUser()).repaint());
+
+        itemUserLista.addActionListener(e -> {
+            // Remover todos os componentes do JFrame atual
+            Telainicial.this.getContentPane().removeAll();
+
+            // Adicionar o novo painel TelaUser
+            Telainicial.this.add(new TelaUser(userController));
+
+            // Revalidar e repintar a janela para refletir a mudança
+            Telainicial.this.revalidate();
+            Telainicial.this.repaint();
+        });
+        itemUserCreate.addActionListener(e -> {
+            // Remover todos os componentes do JFrame atual
+            Telainicial.this.getContentPane().removeAll();
+
+            // Adicionar o novo painel TelaUser
+            Telainicial.this.add(new PanelCriarUser(userController));
+
+            // Revalidar e repintar a janela para refletir a mudança
+            Telainicial.this.revalidate();
+            Telainicial.this.repaint();
+        });
 
         JMenu menuProfissionais = new JMenu("Profissionais");
         JMenuItem itemProfCreate = new JMenuItem("Criar");
@@ -47,7 +67,17 @@ public class Telainicial extends JFrame {
         JMenuItem itemAgCreate = new JMenuItem("Criar");
         JMenuItem itemAgLista = new JMenuItem("Listar");
 
-        itemProfLista.addActionListener(e -> Telainicial.this.add(new TelaProfissionais()).repaint());
+        itemProfLista.addActionListener(e -> {
+            // Remover todos os componentes do JFrame atual
+            Telainicial.this.getContentPane().removeAll();
+
+            // Adicionar o novo painel TelaUser
+            Telainicial.this.add(new TelaProfissionais());
+
+            // Revalidar e repintar a janela para refletir a mudança
+            Telainicial.this.revalidate();
+            Telainicial.this.repaint();
+        });
 
         menuAgenda.add(itemAgLista);
         menuAgenda.add(itemAgCreate);

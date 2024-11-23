@@ -16,6 +16,15 @@ public class Profissional {
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
+    public Profissional() {
+    }
+
+    public Profissional(String name, String cpf, Categoria categoria) {
+        this.name = name;
+        this.cpf = cpf;
+        this.categoria = categoria;
+    }
+
     public Long getId() {
         return id;
     }
@@ -47,6 +56,5 @@ public class Profissional {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-     
-    
+
 }
