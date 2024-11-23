@@ -17,6 +17,7 @@ com/clinica/view/PanelCriarProf.class
 com/clinica/controller/ControllerException.class
 com/clinica/view/PanelCriarUser.class
 com/clinica/models/User.class
+com/clinica/view/PanelCriarUser$1.class
 com/clinica/view/TelaProfissionais.class
 com/clinica/controller/Impl/AgendamentoController.class
 com/clinica/view/TelaUser.class

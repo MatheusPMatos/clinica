@@ -6,6 +6,8 @@ import com.clinica.Database.DBFactory;
 import com.clinica.Repository.Impl.AgendamentoRepository;
 import com.clinica.Repository.Impl.ProfissionalRepository;
 import com.clinica.Repository.Impl.UserRepository;
+import com.clinica.controller.IProfissionalController;
+import com.clinica.controller.Impl.ProfissionalController;
 import com.clinica.controller.Impl.UserController;
 import com.clinica.view.TelaUser;
 import com.clinica.view.Telainicial;
@@ -16,13 +18,13 @@ import com.clinica.view.Telainicial;
  */
 public class App {
     public static void main(String[] args) {
-        DBFactory factory = new DBFactory();
-        UserRepository userRepository = new UserRepository(factory.getSessionFactory());
-        AgendamentoRepository agendamentoRepository = new AgendamentoRepository(factory.getSessionFactory());
-        ProfissionalRepository profissionalRepository = new ProfissionalRepository(factory.getSessionFactory());
+        UserRepository userRepository = new UserRepository(DBFactory.getSessionFactory());
+        AgendamentoRepository agendamentoRepository = new AgendamentoRepository(DBFactory.getSessionFactory());
+        ProfissionalRepository profissionalRepository = new ProfissionalRepository(DBFactory.getSessionFactory());
 
         UserController userController = new UserController(userRepository);
-        JFrame telainicial = new Telainicial(userController);
+        ProfissionalController profissionalController = new ProfissionalController(profissionalRepository);
+        JFrame telainicial = new Telainicial(userController, profissionalController);
 
         telainicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         telainicial.setSize(700, 500);
