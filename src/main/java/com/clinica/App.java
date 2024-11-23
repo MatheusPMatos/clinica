@@ -18,7 +18,7 @@ public class App {
 
         JFrame telainicial = new Telainicial();
         telainicial.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        telainicial.setSize(500, 300);
+        telainicial.setSize(700, 500);
         telainicial.setVisible(true);
 
     }

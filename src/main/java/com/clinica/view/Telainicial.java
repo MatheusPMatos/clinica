@@ -34,6 +34,7 @@ public class Telainicial extends JFrame {
         JMenuItem itemUserLista = new JMenuItem("Listar");
         menuUsers.add(itemUserLista);
         menuUsers.add(itemUserCreate);
+        itemUserLista.addActionListener(e -> Telainicial.this.add(new TelaUser()).repaint());
 
         JMenu menuProfissionais = new JMenu("Profissionais");
         JMenuItem itemProfCreate = new JMenuItem("Criar");
@@ -46,7 +47,7 @@ public class Telainicial extends JFrame {
         JMenuItem itemAgCreate = new JMenuItem("Criar");
         JMenuItem itemAgLista = new JMenuItem("Listar");
 
-        itemAgLista.addActionListener(e -> new TelaUser());
+        itemProfLista.addActionListener(e -> Telainicial.this.add(new TelaProfissionais()).repaint());
 
         menuAgenda.add(itemAgLista);
         menuAgenda.add(itemAgCreate);
@@ -63,11 +64,11 @@ public class Telainicial extends JFrame {
         barmenu.add(menuAgenda);
         barmenu.add(menuAjuda);
 
-        // new JOptionPane() ;
-        temMenuSobre.addActionListener(arg -> new JOptionPane().showMessageDialog(TelaPrincipal.this,
+        // new JOptionPane();
+        itemMenuSobre.addActionListener(arg -> new JOptionPane().showMessageDialog(Telainicial.this,
                 "Este é um exemplo\n" + "do uso de menus"));
         // new JOptionPane();
-        // itemMenuSair.addActionListener(e -> System.exit(0));
+        itemMenuSair.addActionListener(e -> System.exit(0));
         // new JOptionPane();
     }
 }
