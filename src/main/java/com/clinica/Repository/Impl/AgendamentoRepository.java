@@ -84,9 +84,11 @@ public class AgendamentoRepository implements IAgendamentoRepository {
         try {
             Session session = sessionFactory.getCurrentSession();
             List<Agendamento> agendamentos;
+            Transaction transaction = session.beginTransaction();
             String hql = "FROM Agendamento"; // HQL para selecionar todos os usuários
             Query<Agendamento> query = session.createQuery(hql, Agendamento.class);
             agendamentos = query.getResultList();
+            transaction.commit();
             return agendamentos;
         } catch (HibernateException e) {
             throw new RepositoryException(e.getMessage());

@@ -1,7 +1,6 @@
 package com.clinica.Repository.Impl;
 
 import com.clinica.Repository.RepositoryException;
-import com.clinica.models.Agendamento;
 import com.clinica.models.Profissional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -79,9 +78,11 @@ public class ProfissionalRepository implements IProfissionalRepository {
         try {
             Session session = sessionFactory.getCurrentSession();
             List<Profissional> profissionals;
+            Transaction transaction = session.beginTransaction();
             String hql = "FROM Profissional"; // HQL para selecionar todos os usuários
             Query<Profissional> query = session.createQuery(hql, Profissional.class);
             profissionals = query.getResultList();
+            transaction.commit();
             return profissionals;
         } catch (HibernateException e) {
             throw new RepositoryException(e.getMessage());
