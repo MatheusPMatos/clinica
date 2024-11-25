@@ -13,9 +13,11 @@ public class PanelCriarUser extends JPanel {
     private JTextField nomeField;
     private JTextField cpfField;
 
-    public PanelCriarUser(IUserController userController) {
+
+    public PanelCriarUser(IUserController userController, boolean isEditUser, User userToEdit) {
         this.userController = userController;
 
+       
         // Definir layout do painel
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -30,8 +32,13 @@ public class PanelCriarUser extends JPanel {
         nomeField = new JTextField(20); // Largura em colunas
         cpfField = new JTextField(20);
 
+        if (isEditUser) {
+            nomeField.setText(userToEdit.getName());
+            cpfField.setText(userToEdit.getCpf());
+        }
+
         // Botão de criar
-        JButton criarButton = new JButton("Criar Usuário");
+        JButton criarButton = new JButton(isEditUser? "Editar Usuário": "Criar Usuário");
 
         // Configuração e adição dos componentes ao painel
 
@@ -70,6 +77,10 @@ public class PanelCriarUser extends JPanel {
         criarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (isEditUser) {
+                    editarUsuario(userToEdit);
+                    return;
+                }
                 criarUsuario();
             }
         });
@@ -97,6 +108,32 @@ public class PanelCriarUser extends JPanel {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             JOptionPane.showMessageDialog(this, "Erro ao criar usuário: " + e.getMessage(), "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void editarUsuario(User user) {
+        String nome = nomeField.getText();
+        String cpf = cpfField.getText();
+
+        // Validar campos
+        if (nome.isEmpty() || cpf.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos.", "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Criar o usuário e salvar usando o controlador
+        try {
+            user.setCpf(cpf);
+            user.setName(nome);
+            userController.edit(user); // Método do UserController para criar o usuário
+            JOptionPane.showMessageDialog(this, "Usuário editado com sucesso!", "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
+            limparCampos(); // Limpar os campos após criação
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(this, "Erro ao editar usuário: " + e.getMessage(), "Erro",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
