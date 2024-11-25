@@ -4,7 +4,7 @@
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
 
         <!-- URL de conexão para o banco MySQL -->
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/clinica</property>
+        <property name="hibernate.connection.url">jdbc:mysql://192.168.1.5:3306/clinica</property>
 
         <!-- Usuário e senha do banco -->
         <property name="hibernate.connection.username">root</property>

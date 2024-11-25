@@ -2,7 +2,6 @@ package com.clinica.Repository.Impl;
 
 import com.clinica.Repository.RepositoryException;
 import com.clinica.models.Agendamento;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -21,77 +20,98 @@ public class AgendamentoRepository implements IAgendamentoRepository {
 
     @Override
     public Agendamento create(Agendamento agendamento) throws RepositoryException {
-
+        Transaction transaction = null;
         try {
             Session session = sessionFactory.getCurrentSession();
-            Transaction transaction = session.beginTransaction();
+            transaction = session.beginTransaction();
             session.save(agendamento);
             transaction.commit();
             return agendamento;
-        } catch (HibernateException e) {
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+                
+            }
             throw new RepositoryException(e.getMessage());
-        }
+       }
     }
 
     @Override
     public Agendamento edit(Agendamento agendamento) throws RepositoryException {
+        Transaction transaction = null;
         try {
             Session session = sessionFactory.getCurrentSession();
-            Agendamento actualAgendamento = session.get(Agendamento.class, agendamento.getId());
-            ;
-
-            agendamento.setId(actualAgendamento.getId());
-            Transaction transaction = session.beginTransaction();
-            session.save(agendamento);
+            transaction = session.beginTransaction();
+            session.update(agendamento);
             transaction.commit();
 
             return agendamento;
-        } catch (HibernateException e) {
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+                
+            }
             throw new RepositoryException(e.getMessage());
-        }
+       }
 
     }
 
     @Override
     public Agendamento get(Long id) throws RepositoryException {
-
+        Transaction transaction = null;
         try {
             Session session = sessionFactory.getCurrentSession();
-            return session.get(Agendamento.class, id);
-        } catch (HibernateException e) {
+            transaction = session.beginTransaction();
+            Agendamento agenda = session.get(Agendamento.class, id);
+            transaction.commit();
+            return agenda;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+                
+            }
             throw new RepositoryException(e.getMessage());
-        }
+       }
     }
 
     @Override
     public void delete(Long id) throws RepositoryException {
+        Transaction transaction = null;
         try {
             Session session = sessionFactory.getCurrentSession();
+            transaction = session.beginTransaction();
             Agendamento agendamento = session.get(Agendamento.class, id);
-
-            Transaction transaction = session.beginTransaction();
             session.delete(agendamento);
             transaction.commit();
-        } catch (HibernateException e) {
+
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+                
+            }
             throw new RepositoryException(e.getMessage());
-        }
+       }
 
     }
 
     @Override
     public List<Agendamento> list() throws RepositoryException {
-
+        Transaction transaction = null;
         try {
             Session session = sessionFactory.getCurrentSession();
             List<Agendamento> agendamentos;
-            Transaction transaction = session.beginTransaction();
+            transaction = session.beginTransaction();
             String hql = "FROM Agendamento"; // HQL para selecionar todos os usuários
             Query<Agendamento> query = session.createQuery(hql, Agendamento.class);
             agendamentos = query.getResultList();
             transaction.commit();
             return agendamentos;
-        } catch (HibernateException e) {
+        } catch (Exception e) {
+            if (transaction != null) {
+                 transaction.rollback();
+                
+            }
             throw new RepositoryException(e.getMessage());
-        }
+       }
     }
 }
